@@ -2,9 +2,9 @@
 clc
 clear
 tic
-addpath('D:\EÅÌ\YGA_MSHFA_2nd\DATA\AIS\')
-addpath('D:\EÅÌ\YGA_MSHFA_2nd\DATA\ORS600\')
-addpath('D:\EÅÌ\YGA_MSHFA_2nd\DATA\SAR\')
+addpath('.\DATA\AIS\')
+addpath('.\DATA\ORS\')
+addpath('.\DATA\SAR\')
 %% data loading
 SD1=load('AIS_NGF11_data.mat');
  SD1_data=double(SD1.AIS_NGF11_data);
@@ -28,19 +28,19 @@ select_train_val_data = 3;
 
 rand('seed',1);
 for t1 = 1:10
-    l_ais_source_train_data(t1,:) = randperm(num_ais_source_data,select_ais_source_data);%600Ñ¡È¡300
+    l_ais_source_train_data(t1,:) = randperm(num_ais_source_data,select_ais_source_data);%600é€‰å–300
 end
 
 rand('seed',1);
 for t1 = 1:10
-    l_ors_source_train_data(t1,:) = randperm(num_ors_source_data,select_ors_source_data);%1200Ñ¡È¡300
+    l_ors_source_train_data(t1,:) = randperm(num_ors_source_data,select_ors_source_data);%1200é€‰å–300
 end
 
 rand('seed',1);
 for t2 = 1:10
     l_target_data(t2,:) = randperm(num_target_data);
-    l_target_train_val_data(t2,:) = l_target_data(t2,1:select_train_val_data);%ÅÅÐò
-    l_target_test_data(t2,:) = l_target_data(t2,select_train_val_data+1:end);%´Ó50¸öÖÐÑ¡È¡3¸ö£¬
+    l_target_train_val_data(t2,:) = l_target_data(t2,1:select_train_val_data);%æŽ’åº
+    l_target_test_data(t2,:) = l_target_data(t2,select_train_val_data+1:end);%ä»Ž50ä¸ªä¸­é€‰å–3ä¸ªï¼Œ
 end
 
 for num = 1:10
@@ -52,12 +52,12 @@ for num = 1:10
     
     source_ais_train_data = SD1_data(n_ais_source_train_data,:);
     source_ais_train_labels = SD1_labels(n_ais_source_train_data,:);
-    source_ais_train_data = source_ais_train_data';%È¡×ªÖÃ
-    source_ais_train_data = source_ais_train_data ./ repmat(sqrt(sum(source_ais_train_data.^2)), size(source_ais_train_data, 1), 1);%¹éÒ»»¯
+    source_ais_train_data = source_ais_train_data';%å–è½¬ç½®
+    source_ais_train_data = source_ais_train_data ./ repmat(sqrt(sum(source_ais_train_data.^2)), size(source_ais_train_data, 1), 1);%å½’ä¸€åŒ–
     
     source_ors_train_data = SD2_data(n_ors_source_train_data,:);
     source_ors_train_labels = SD2_labels(n_ors_source_train_data,:);
-    source_ors_train_data = source_ors_train_data';%È¡×ªÖÃ
+    source_ors_train_data = source_ors_train_data';%å–è½¬ç½®
     source_ors_train_data = source_ors_train_data ./ repmat(sqrt(sum(source_ors_train_data.^2)), size(source_ors_train_data, 1), 1);
     
     target_train_val_data = TD_data(n_target_train_val_data,:);
@@ -75,7 +75,7 @@ for num = 1:10
     
     all_C =  [0.01,0.1,1,10,100];
     all_gamma =  [0.01,0.1,1,10,100];
-    all_C_s1=[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1];%Éè¶¨Ä¿±êÓòÈ¨ÖØÎª1£¬ÔñÆäËüÓòµÄÖµ±íÊ¾ÆäÏà¶ÔÈ¨ÖØ
+    all_C_s1=[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1];%è®¾å®šç›®æ ‡åŸŸæƒé‡ä¸º1ï¼Œæ‹©å…¶å®ƒåŸŸçš„å€¼è¡¨ç¤ºå…¶ç›¸å¯¹æƒé‡
     all_C_s2=[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1];
     param.lambda = 1000;
     param.C_t = 1;
@@ -136,7 +136,7 @@ for num = 1:10
                     y_alpha     = zeros(n, 1);
                     y_alpha(full(model.SVs)) = model.sv_coef;
                     y_alpha     = y_alpha*model.Label(1);%w
-                    y_alpha_t   = y_alpha(n_s_ais+n_s_ors+1:end);%Ä¿±êÓòµÄÊý¾ÝµÄw
+                    y_alpha_t   = y_alpha(n_s_ais+n_s_ors+1:end);%ç›®æ ‡åŸŸçš„æ•°æ®çš„w
                     
                     tmp = (K_test*L_t_inv'*H*K_root);
                     dec_values12 = [];
@@ -255,7 +255,7 @@ for num = 1:10
                     dec_values23 = [];
                     dec_values23(:,:) = tmp*y_alpha + K_test*y_alpha_t - rho;
                     
-                    %±êÇ©È·¶¨
+                    %æ ‡ç­¾ç¡®å®š
                     predict_23 = sign(dec_values23);
                     predict_23(find(predict_23 == 1)) = 2;
                     predict_23(find(predict_23 == -1)) = 3;
@@ -268,7 +268,6 @@ for num = 1:10
                     if acc_mshfa >= best_acc
                         best_C = param.svm.C;
                         best_gamma = kparam.gamma;
-                        %best_lambda = param.lambda;
                         best_w1= param.C_s1;
                         best_w2= param.C_s2;
                         best_acc = acc_mshfa;
@@ -279,19 +278,19 @@ for num = 1:10
         end
         
     end
-    acc_2SD_MSHFA_test_lam1000w(num,1) = best_C;
-    acc_2SD_MSHFA_test_lam1000w(num,2) = best_gamma;
-    acc_2SD_MSHFA_test_lam1000w(num,3) = best_w1;
-    acc_2SD_MSHFA_test_lam1000w(num,4) = best_w2;
-    acc_2SD_MSHFA_test_lam1000w(num,5) = best_acc;
-    pre_2SD_MSHFA_test_lam1000w(:,num) = best_pre(:);
+    acc_2SD_MSHFA(num,1) = best_C;
+    acc_2SD_MSHFA(num,2) = best_gamma;
+    acc_2SD_MSHFA(num,3) = best_w1;
+    acc_2SD_MSHFA(num,4) = best_w2;
+    acc_2SD_MSHFA(num,5) = best_acc;
+    pre_2SD_MSHFA(:,num) = best_pre(:);
 end
 
 mean_acc_mshfa = mean(acc_2SD_MSHFA_test_lam1000w(:,end));
 std_acc_mshfa = std(acc_2SD_MSHFA_test_lam1000w(:,end));
-fprintf('%.2f¡À %.2f\n',100*mean_acc_mshfa,100*std_acc_mshfa);
-save('MSHFA_AIS_ngfs_ORS_GIST_SAR_ResNet18','acc_2SD_MSHFA_test_lam1000w');
-save('pre_MSHFA_AIS_ngfs_ORS_GIST_SAR_ResNet18','pre_2SD_MSHFA_test_lam1000w');
+fprintf('%.2fÂ± %.2f\n',100*mean_acc_mshfa,100*std_acc_mshfa);
+save('acc_MSHFA_SAR_ResNet18','acc_2SD_MSHFA');
+save('pre_MSHFA_SAR_ResNet18','pre_2SD_MSHFA');
 toc
 
 
