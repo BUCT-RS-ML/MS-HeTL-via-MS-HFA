@@ -17,3 +17,15 @@ Thanks for your attentation!
   [https://pan.baidu.com/s/1IzyspKYDi_dDpR8lA_tmcA](https://pan.baidu.com/s/1IzyspKYDi_dDpR8lA_tmcA)  
   Access code: buct
 
+|  type  |  number|
+| ----    |   ----     |
+|bulk carrier|2025|
+|car carrier  | 83|
+|chemical tanker|144|
+|container(empty)|431|
+|container(full)    | 826|
+|dredge    |66|
+|oil tanker |3475|
+|cargo   |1583|
+|tug   |45|
+| ----    |   ----     |
