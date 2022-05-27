@@ -17,7 +17,7 @@ Thanks for your attentation!
   [https://pan.baidu.com/s/1IzyspKYDi_dDpR8lA_tmcA](https://pan.baidu.com/s/1IzyspKYDi_dDpR8lA_tmcA)  
   Access code: buct
 
-|  type  |  number|
+|  ship class  |  number of image|
 | ----    |   ----     |
 |bulk carrier|2025|
 |car carrier  | 83|
@@ -28,4 +28,3 @@ Thanks for your attentation!
 |oil tanker |3475|
 |cargo   |1583|
 |tug   |45|
-| ----    |   ----     |
